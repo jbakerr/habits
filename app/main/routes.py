@@ -4,7 +4,7 @@ from flask_login import current_user, login_required
 from app import db
 from app.models import User, Habbit, HabbitHistory
 from app.main.forms import NewHabbitForm, HabbitSettings
-
+from sqlalchemy import desc
 
 
 @bp.route('/', methods=['GET', 'POST'])
@@ -70,4 +70,32 @@ def complete():
     habbit.update_streak(habbit_history)
     print(habbit.current_streak)
     db.session.commit()
+    return ""
+
+
+@bp.route('/_undo', methods=['GET', 'POST'])
+def undo():
+    id = request.form['id']
+    habbit = Habbit.query.filter_by(id=id).first_or_404()
+    habbit_history = HabbitHistory.query.filter_by(
+        habbit_id=id).order_by(desc(HabbitHistory.timestamp)).first()
+    db.session.delete(habbit_history)
+    if habbit.current_streak == habbit.longest_streak:
+        habbit.current_streak -= 1
+        habbit.longest_streak -= 1
+    else:
+        habbit.current_streak -= 1
+    habbit.active_today = True
+    db.session.commit()
+
+
+
+
+    # habbit = Habbit.query.filter_by(id=id).first_or_404()
+    # habbit_history = HabbitHistory.query.filter_by(habbit_id=id)
+
+    # Habbit.complete_habbit(habbit,current_user)
+    # habbit.update_streak(habbit_history)
+    # print(habbit.current_streak)
+    # db.session.commit()
     return ""

@@ -75,15 +75,6 @@ class Habbit(db.Model):
     current_streak = db.Column(db.Integer, default=0)
     longest_streak = db.Column(db.Integer, default=0)
 
-    # habbit_history = db.relationship('HabbitHistory', backref='history', lazy='dynamic')
-
-    # @classmethod
-    # def create_habbit(cls, habbit, user_id, weekly_goal):
-    #     habit = cls.create(habbit=habbit, user_id=user_id, weekly_goal=weekly_goal)
-    #     habbit_summary = HabbitSummary(habbit_id = habbt.id)
-    #     db.session.add(habbit)
-    #     db.session.add(habbit_summary)
-    #     db.session.commit()
 
     def complete_habbit(self, user_id):
         finished_at = datetime.utcnow()
@@ -103,6 +94,14 @@ class Habbit(db.Model):
         return ""
 
 
+    def reset_current_streak(self):
+        self.current_streak = 0
+        db.session.commit()
+
+    def reset_longest_streak(self):
+        self.longest_streak = 0
+        db.session.commit()
+
     def __repr__(self):
         return '<Habbit {}>'.format(self.habbit)
 
@@ -112,11 +111,11 @@ class HabbitHistory(db.Model):
         id (int): Unique log id
         timestamp (date): Date habbit was completed
         habbit_id (int): Foreign key to unique habbit id
-        user_id (int): Foreign Key to unique User ID
     """
     id = db.Column(db.Integer, primary_key = True)
     timestamp = db.Column(db.DateTime, index=True, default=datetime.utcnow)
     habbit_id = db.Column(db.Integer, db.ForeignKey('habbit.id'))
+
 
 
 
