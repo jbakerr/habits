@@ -60,6 +60,7 @@ class Habbit(db.Model):
         user_id (int): Foreign Key to unique User ID
         weekly_goal (int): Number of times to complete habbit / week
         is_active (bool): True if habbit isn't currently active
+        active_today (bool): True if habbit needs to be completed today
 
     """
     id = db.Column(db.Integer, primary_key = True)
@@ -69,6 +70,7 @@ class Habbit(db.Model):
     weekly_goal = db.Column(db.Integer)
     is_active = db.Column(db.Boolean, default=True)
     habbit_history = db.relationship('HabbitHistory', backref='parent', lazy='dynamic')
+    active_today = db.Column(db.Boolean, default=True)
 
     current_streak = db.Column(db.Integer, default=0)
     longest_streak = db.Column(db.Integer, default=0)
@@ -87,6 +89,7 @@ class Habbit(db.Model):
         finished_at = datetime.utcnow()
         update_history = HabbitHistory(timestamp=finished_at, habbit_id = self.id)
         db.session.add(update_history)
+        self.active_today = False
 
     def update_streak(self, habbit_history):
         yesterday = date.today() - timedelta(1)
