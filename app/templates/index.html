@@ -17,12 +17,13 @@
 
 
 
-  <table style="width:45%;">
+  <table style="width:65%;">
     <tr>
       <th>Habbit</th>
       <th>Weekly Goal</th>
       <th>Today's Status</th>
       <th>Current Streak</th>
+      <th>Weekly Progress</th>
       <th>Longest Streak</th>
 
     </tr>
@@ -33,9 +34,14 @@
       <td><a href="{{ url_for('main.habbit', username=current_user.username, id=habbit.id) }}">{{ habbit.habbit }}</a></td>
       <td>{{ habbit.weekly_goal}}</td>
       <td>
+        {% if habbit.active_today == True %}
         <input class="habbitCheckbox" type="checkbox" name="today.{{ habbit.id }}" id="{{ habbit.id }}"></input>
+        {% else %}
+        <input class="habbitCheckbox" type="checkbox" name="today.{{ habbit.id }}" id="{{ habbit.id }}" checked></input>
+        {% endif %}
       </td>
       <td>{{ habbit.current_streak }}</td>
+      <td>{{ (habbit.current_streak / habbit.weekly_goal) * 100 }}</td>
       <td>{{ habbit.longest_streak }}</td>
     </tr>
   {% endfor %}
