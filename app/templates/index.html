@@ -1,17 +1,69 @@
 {% extends "base.html" %}
 {% import 'bootstrap/wtf.html' as wtf %}
 
+{% block styles %}
+  {{super()}}
+  <link rel="stylesheet"
+      href="{{url_for('static', filename='style.css')}}">
+  {% endblock %}
+
+
+
 {% block app_content %}
 
-    <h1>Welcome {{ user.username }}</h1>
+    <h1 style="text-transform: capitalize;">Welcome {{ user.username }}</h1>
     <br>
     <h3><a href="{{ url_for('main.new_habbit') }}">Create a new habbit</a></h3>
 
-  {% for habbit in habbits %}
-   <p>
-    {{ habbit.habbit }}<br>
-  </p>
+
+
+  <table style="width:45%;">
+    <tr>
+      <th>Habbit</th>
+      <th>Weekly Goal</th>
+      <th>Today's Status</th>
+      <th>Current Streak</th>
+      <th>Longest Streak</th>
+
+    </tr>
+
+    {% for habbit in habbits %}
+
+    <tr>
+      <td><a href="{{ url_for('main.habbit', username=current_user.username, id=habbit.id) }}">{{ habbit.habbit }}</a></td>
+      <td>{{ habbit.weekly_goal}}</td>
+      <td>
+        <input class="habbitCheckbox" type="checkbox" name="today.{{ habbit.id }}" id="{{ habbit.id }}"></input>
+      </td>
+      <td>{{ habbit.current_streak }}</td>
+      <td>{{ habbit.longest_streak }}</td>
+    </tr>
   {% endfor %}
+
+
+</table>
+
+
+{% endblock %}
+
+{% block scripts %}
+
+<script src="//ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
+
+<script type=text/javascript>
+$('.habbitCheckbox').click(function() {
+    // alert($(this).attr('id'));  //-->this will alert id of checked checkbox.
+       if(this.checked){
+            $.post('/_complete', {
+              id: $(this).attr('id')
+            }).done(function() {
+              //
+            })
+          }
+      });
+</script>
+
+
 
 
 {% endblock %}
