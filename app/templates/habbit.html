@@ -1,0 +1,17 @@
+{% extends "base.html" %}
+{% import 'bootstrap/wtf.html' as wtf %}
+
+{% block app_content %}
+
+    <h1 style="text-transform: capitalize;"> Settings for {{ habbit.habbit }}</h1>
+    <br>
+    {% if form %}
+    {{ wtf.quick_form(form) }}
+    <br>
+    {% endif %}
+
+
+
+
+
+{% endblock %}
