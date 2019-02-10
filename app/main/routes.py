@@ -5,7 +5,20 @@ from app import db
 from app.models import User, Habbit, HabbitHistory
 from app.main.forms import NewHabbitForm, HabbitSettings
 from sqlalchemy import desc
+from datetime import datetime, date, timedelta
 
+
+@bp.before_request
+def before_request():
+    yesterday = date.today() - timedelta(1)
+    if current_user:
+        habbits = Habbit.query.filter_by(creator=current_user)
+        for habbit in habbits:
+            habbit_history = HabbitHistory.query.filter_by(habbit_id=habbit.id).order_by(desc(HabbitHistory.timestamp)).first()
+            if habbit_history is not None:
+                if habbit_history.timestamp.date() < yesterday:
+                    habbit.current_streak = 0
+    db.session.commit()
 
 @bp.route('/', methods=['GET', 'POST'])
 @bp.route('/index', methods=['GET', 'POST'])
@@ -44,6 +57,7 @@ def new_habbit():
 @login_required
 def habbit(username, id):
     habbit = Habbit.query.filter_by(id=id).first_or_404()
+    habbit_history = HabbitHistory.query.filter_by(habbit_id=id)
     form = HabbitSettings(habbit.habbit)
     if form.validate_on_submit():
         habbit.habbit = form.habbit.data
@@ -56,7 +70,7 @@ def habbit(username, id):
         form.weekly_goal.data = habbit.weekly_goal
 
 
-    return render_template('habbit.html', title='Habbit', habbit=habbit, form=form)
+    return render_template('habbit.html', title='Habbit', habbit=habbit, form=form, habbit_history=habbit_history)
 
 
 
