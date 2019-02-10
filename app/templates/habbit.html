@@ -10,4 +10,12 @@
     <br>
     {% endif %}
 
+    <br>
+    <ul>
+      {% for entry in habbit_history %}
+      <li>{{ entry.timestamp }}</li>
+      {% endfor %}
+    </ul>
+
+
 {% endblock %}
