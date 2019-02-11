@@ -40,9 +40,9 @@
         <input class="habbitCheckbox" type="checkbox" name="today.{{ habbit.id }}" id="{{ habbit.id }}" checked></input>
         {% endif %}
       </td>
-      <td>{{ habbit.current_streak }}</td>
-      <td>{{ (habbit.current_streak / habbit.weekly_goal) * 100 }}</td>
-      <td>{{ habbit.longest_streak }}</td>
+      <td><span id="current_streak{{ habbit.id }}">{{ habbit.current_streak }}</span></td>
+      <td><span id="weekly_prog_percent{{ habbit.id }}">{{ (habbit.current_streak / habbit.weekly_goal) * 100 }}</span></td>
+      <td><span id="longest_streak{{ habbit.id }}">{{ habbit.longest_streak }}</span></td>
     </tr>
   {% endfor %}
 
@@ -58,19 +58,26 @@
 
 <script type=text/javascript>
 $('.habbitCheckbox').click(function() {
+    var id = $(this).attr('id')
+    // alert(id)
     // alert($(this).attr('id'));  //-->this will alert id of checked checkbox.
        if(this.checked){
             $.post('/_complete', {
-              id: $(this).attr('id')
-            }).done(function() {
-              //
+              id: id
+            }).done(function(data) {
+                $("#current_streak" + id).text(data.current_streak);
+                $("#longest_streak" + id).text(data.longest_streak);
+                $("#weekly_prog_percent" + id).text(data.weekly_prog_percent);
+
             })
           }
         else {
             $.post('/_undo', {
             id: $(this).attr('id')
-            }).done(function() {
-              //
+            }).done(function(data) {
+                $("#current_streak" + id).text(data.current_streak);
+                $("#longest_streak" + id).text(data.longest_streak);
+                $("#weekly_prog_percent" + id).text(data.weekly_prog_percent);
             })
           }
       });
