@@ -11,13 +11,16 @@ from datetime import datetime, date, timedelta
 @bp.before_request
 def before_request():
     yesterday = date.today() - timedelta(1)
-    if current_user:
+    if current_user.is_anonymous == False:
         habbits = Habbit.query.filter_by(creator=current_user)
         for habbit in habbits:
             habbit_history = HabbitHistory.query.filter_by(habbit_id=habbit.id).order_by(desc(HabbitHistory.timestamp)).first()
             if habbit_history is not None:
+                if habbit_history.timestamp.date() < date.today():
+                    habbit.active_today = True
                 if habbit_history.timestamp.date() < yesterday:
                     habbit.current_streak = 0
+
     db.session.commit()
 
 @bp.route('/', methods=['GET', 'POST'])
@@ -77,14 +80,20 @@ def habbit(username, id):
 @bp.route('/_complete', methods=['GET', 'POST'])
 def complete():
     id = request.form['id']
+    print(id)
     habbit = Habbit.query.filter_by(id=id).first_or_404()
     habbit_history = HabbitHistory.query.filter_by(habbit_id=id)
 
     Habbit.complete_habbit(habbit,current_user)
     habbit.update_streak(habbit_history)
-    print(habbit.current_streak)
     db.session.commit()
-    return ""
+
+    weekly_prog_percent = (habbit.current_streak / habbit.weekly_goal) * 100
+
+    return jsonify(
+        current_streak=habbit.current_streak,
+         longest_streak=habbit.longest_streak,
+         weekly_prog_percent=weekly_prog_percent)
 
 
 @bp.route('/_undo', methods=['GET', 'POST'])
@@ -102,6 +111,7 @@ def undo():
     habbit.active_today = True
     db.session.commit()
 
+    weekly_prog_percent = (habbit.current_streak / habbit.weekly_goal) * 100
 
 
 
@@ -112,4 +122,7 @@ def undo():
     # habbit.update_streak(habbit_history)
     # print(habbit.current_streak)
     # db.session.commit()
-    return ""
+    return jsonify(
+        current_streak=habbit.current_streak,
+        longest_streak=habbit.longest_streak,
+        weekly_prog_percent=weekly_prog_percent)
