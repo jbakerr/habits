@@ -1,0 +1,6 @@
+// Wednesday 02/13/19 at 08:25PM - 56 files in 0.36 secs
+
+## TODO (3)
+1. app/models.py:38          Add email / user password reset functionality back in
+2. templates/index.html:89   Make sure date is correct and set for midnight
+3. templates/index.html:90   Make sure page loads with current weekly count
