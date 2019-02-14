@@ -34,11 +34,7 @@
       <td><a href="{{ url_for('main.habbit', username=current_user.username, id=habbit.id, habbit=habbit.habbit) }}">{{ habbit.habbit }}</a></td>
       <td>{{ habbit.weekly_goal}}</td>
       <td>
-        {% if habbit.active_today == True %}
-        <input class="habbitCheckbox" type="checkbox" name="today.{{ habbit.id }}" id="{{ habbit.id }}"></input>
-        {% else %}
-        <input class="habbitCheckbox" type="checkbox" name="today.{{ habbit.id }}" id="{{ habbit.id }}" checked></input>
-        {% endif %}
+        <input class="habbitCheckbox" type="checkbox" name="{{ habbit.id }}" id="checkbox{{ habbit.id }}"></input>
       </td>
       <td><span id="current_streak{{ habbit.id }}">{{ habbit.current_streak }}</span></td>
       <td><span id="weekly_count{{ habbit.id }}">0</span></td>
@@ -59,7 +55,7 @@
 
 <script type=text/javascript>
 $('.habbitCheckbox').click(function() {
-    var id = $(this).attr('id')
+    var id = $(this).attr('name')
     var weekly_count = +$("#weekly_count" + id).text();
 
        if(this.checked){
@@ -74,7 +70,7 @@ $('.habbitCheckbox').click(function() {
           }
         else {
             $.post('/_undo', {
-              id: $(this).attr('id'),
+              id: $(this).attr('name'),
               weekly_count: weekly_count
             }).done(function(data) {
                 $("#current_streak" + id).text(data.current_streak);
@@ -88,9 +84,11 @@ $('.habbitCheckbox').click(function() {
  $(function() {
       // TODO: Make sure date is correct and set for midnight
       //  TODO: Make sure page loads with current weekly count
-      var date = new Date()
-      while ( date.getDay() !== 1 ) date.setDate(date.getDate() -1);
-      var date = moment(date).startOf('day')
+      var start_day = new Date()
+      var yesterday = moment().subtract(1, 'days').startOf('day')
+      while ( start_day.getDay() !== 1 ) start_day.setDate(start_day.getDate() -1);
+      var start_day = moment(start_day).startOf('day')
+
 
         $.ajax({
           url: '/_check_status',
@@ -99,8 +97,11 @@ $('.habbitCheckbox').click(function() {
              if (habbit_list.hasOwnProperty(habbit)){
               var week_count = 0
               habbit_list[habbit].forEach(function(element) {
-                if (moment(element) >= date){
+                if (moment(element) >= start_day){
                   week_count ++;
+                };
+                if (moment(element).isSame(moment(), 'day')){
+                  $("#checkbox" + habbit).prop("checked", true)
                 }
 
               });
