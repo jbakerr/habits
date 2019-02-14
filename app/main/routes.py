@@ -18,8 +18,7 @@ def before_request():
                 habbit_id=habbit.id).order_by(
                 desc(HabbitHistory.timestamp)).first()
             if habbit_history is not None:
-                if habbit_history.timestamp.date() < date.today():
-                    habbit.active_today = True
+
                 if habbit_history.timestamp.date() < yesterday:
                     habbit.current_streak = 0
 
@@ -135,6 +134,5 @@ def check_status():
         history = [status.timestamp.isoformat() for status in habbit_history]
         if len(history) > 0:
             json.update({str(habbit.id): history})
-    print(json)
 
     return jsonify(json)
