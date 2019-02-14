@@ -23,7 +23,7 @@
       <th>Weekly Goal</th>
       <th>Today's Status</th>
       <th>Current Streak</th>
-      <th>Weekly Progress</th>
+      <th>Weekly Count</th>
       <th>Longest Streak</th>
 
     </tr>
@@ -41,7 +41,7 @@
         {% endif %}
       </td>
       <td><span id="current_streak{{ habbit.id }}">{{ habbit.current_streak }}</span></td>
-      <td><span id="weekly_prog_percent{{ habbit.id }}">{{ (habbit.current_streak / habbit.weekly_goal) * 100 }}</span></td>
+      <td><span id="weekly_count{{ habbit.id }}">0</span></td>
       <td><span id="longest_streak{{ habbit.id }}">{{ habbit.longest_streak }}</span></td>
     </tr>
   {% endfor %}
@@ -53,37 +53,64 @@
 {% endblock %}
 
 {% block scripts %}
+{{ super() }}
 
 <script src="//ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
 
 <script type=text/javascript>
 $('.habbitCheckbox').click(function() {
     var id = $(this).attr('id')
-    // alert(id)
-    // alert($(this).attr('id'));  //-->this will alert id of checked checkbox.
+    var weekly_count = +$("#weekly_count" + id).text();
+
        if(this.checked){
             $.post('/_complete', {
-              id: id
+              id: id,
+              weekly_count: weekly_count
             }).done(function(data) {
                 $("#current_streak" + id).text(data.current_streak);
                 $("#longest_streak" + id).text(data.longest_streak);
-                $("#weekly_prog_percent" + id).text(data.weekly_prog_percent);
-
+                $("#weekly_count" + id).text(data.weekly_count);
             })
           }
         else {
             $.post('/_undo', {
-            id: $(this).attr('id')
+              id: $(this).attr('id'),
+              weekly_count: weekly_count
             }).done(function(data) {
                 $("#current_streak" + id).text(data.current_streak);
                 $("#longest_streak" + id).text(data.longest_streak);
-                $("#weekly_prog_percent" + id).text(data.weekly_prog_percent);
+                $("#weekly_count" + id).text(data.weekly_count);
             })
           }
       });
+
+
+ $(function() {
+      // TODO: Make sure date is correct and set for midnight
+      //  TODO: Make sure page loads with current weekly count
+      var date = new Date()
+      while ( date.getDay() !== 1 ) date.setDate(date.getDate() -1);
+      var date = moment(date).startOf('day')
+
+        $.ajax({
+          url: '/_check_status',
+        }).done(function(habbit_list){
+          for (var habbit in habbit_list) {
+             if (habbit_list.hasOwnProperty(habbit)){
+              var week_count = 0
+              habbit_list[habbit].forEach(function(element) {
+                if (moment(element) >= date){
+                  week_count ++;
+                }
+
+              });
+              $("#weekly_count" + habbit).text(week_count);
+             }
+          }
+        });
+    });
+
 </script>
-
-
 
 
 {% endblock %}
