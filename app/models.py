@@ -82,17 +82,24 @@ class Habbit(db.Model):
         db.session.add(update_history)
         self.active_today = False
 
-    def update_streak(self, habbit_history):
-        yesterday = date.today() - timedelta(1)
-        last_record = habbit_history[-1].timestamp.date()
-        if last_record < yesterday:
-            self.current_streak = 1
-        else:
+    def increase_streak(self, weekly_count):
+        weekly_count += 1
+        if weekly_count > self.weekly_goal:
             self.current_streak += 1
-            if self.current_streak >= self.longest_streak:
+            if self.current_streak > self.longest_streak:
                 self.longest_streak = self.current_streak
-        return ""
 
+        return weekly_count
+
+    def decrease_streak(self, weekly_count):
+        weekly_count -= 1
+
+        if (weekly_count + 1) == self.weekly_goal:
+            self.current_streak -= 1
+            if (self.current_streak + 1) == self.longest_streak:
+                self.longest_streak -= 1
+
+        return weekly_count
 
     def reset_current_streak(self):
         self.current_streak = 0
