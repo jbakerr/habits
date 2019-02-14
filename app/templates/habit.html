@@ -3,7 +3,7 @@
 
 {% block app_content %}
 
-    <h1 style="text-transform: capitalize;"> Settings for {{ habbit.habbit }}</h1>
+    <h1 style="text-transform: capitalize;"> Settings for {{ habit.habit }}</h1>
     <br>
     {% if form %}
     {{ wtf.quick_form(form) }}
@@ -12,7 +12,7 @@
 
     <br>
     <ul>
-      {% for entry in habbit_history %}
+      {% for entry in habit_history %}
       <li>{{ entry.timestamp }}</li>
       {% endfor %}
     </ul>

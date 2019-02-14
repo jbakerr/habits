@@ -2,8 +2,8 @@ from app.main import bp
 from flask import render_template, flash, url_for, redirect, request, jsonify
 from flask_login import current_user, login_required
 from app import db
-from app.models import User, Habbit, HabbitHistory
-from app.main.forms import NewHabbitForm, HabbitSettings
+from app.models import User, Habit, HabitHistory
+from app.main.forms import NewHabitForm, HabitSettings
 from sqlalchemy import desc
 from datetime import datetime, date, timedelta
 
@@ -12,15 +12,15 @@ from datetime import datetime, date, timedelta
 def before_request():
     yesterday = date.today() - timedelta(1)
     if current_user.is_anonymous == False:
-        habbits = Habbit.query.filter_by(creator=current_user)
-        for habbit in habbits:
-            habbit_history = HabbitHistory.query.filter_by(
-                habbit_id=habbit.id).order_by(
-                desc(HabbitHistory.timestamp)).first()
-            if habbit_history is not None:
+        habits = Habit.query.filter_by(creator=current_user)
+        for habit in habits:
+            habit_history = HabitHistory.query.filter_by(
+                habit_id=habit.id).order_by(
+                desc(HabitHistory.timestamp)).first()
+            if habit_history is not None:
 
-                if habbit_history.timestamp.date() < yesterday:
-                    habbit.current_streak = 0
+                if habit_history.timestamp.date() < yesterday:
+                    habit.current_streak = 0
 
     db.session.commit()
 
@@ -29,9 +29,9 @@ def before_request():
 @login_required
 def index():
     user = current_user
-    habbits = Habbit.query.filter_by(user_id = current_user.id)
+    habits = Habit.query.filter_by(user_id = current_user.id)
     return render_template(
-        'index.html', title='Home', user=user, habbits=habbits)
+        'index.html', title='Home', user=user, habits=habits)
 
 
 @bp.route('/user/<username>')
@@ -42,45 +42,45 @@ def user(username):
     return render_template('user.html', user=user)
 
 
-@bp.route('/new_habbit', methods=['GET', 'POST'])
+@bp.route('/new_habit', methods=['GET', 'POST'])
 @login_required
-def new_habbit():
+def new_habit():
     user = current_user
-    form = NewHabbitForm()
+    form = NewHabitForm()
     if form.validate_on_submit():
-        habbit = Habbit(
-            habbit=form.habbit.data,
+        habit = Habit(
+            habit=form.habit.data,
              creator=current_user,
               weekly_goal=form.weekly_goal.data)
-        db.session.add(habbit)
+        db.session.add(habit)
         db.session.commit()
-        flash("Your habbit is saved.")
+        flash("Your habit is saved.")
         return redirect(url_for('main.index'))
 
-    return render_template('new_habbit.html', title='New Habbit', user=user,
+    return render_template('new_habit.html', title='New Habit', user=user,
         form=form)
 
 
 @bp.route('/<username>/<id>', methods=['GET', 'POST'])
 @login_required
-def habbit(username, id):
-    habbit = Habbit.query.filter_by(id=id).first_or_404()
-    habbit_history = HabbitHistory.query.filter_by(habbit_id=id)
-    form = HabbitSettings(habbit.habbit)
+def habit(username, id):
+    habit = Habit.query.filter_by(id=id).first_or_404()
+    habit_history = HabitHistory.query.filter_by(habit_id=id)
+    form = HabitSettings(habit.habit)
     if form.validate_on_submit():
-        habbit.habbit = form.habbit.data
-        habbit.weekly_goal = form.weekly_goal.data
+        habit.habit = form.habit.data
+        habit.weekly_goal = form.weekly_goal.data
         db.session.commit()
         flash('Your changes have been saved.')
         return redirect(url_for('main.index'))
     elif request.method == 'GET':
-        form.habbit.data = habbit.habbit
-        form.weekly_goal.data = habbit.weekly_goal
+        form.habit.data = habit.habit
+        form.weekly_goal.data = habit.weekly_goal
 
 
     return render_template(
-        'habbit.html', title='Habbit', habbit=habbit,
-         form=form, habbit_history=habbit_history)
+        'habit.html', title='Habit', habit=habit,
+         form=form, habit_history=habit_history)
 
 
 @login_required
@@ -88,17 +88,17 @@ def habbit(username, id):
 def complete():
     id = request.form['id']
     weekly_count = int(request.form['weekly_count'])
-    habbit = Habbit.query.filter_by(id=id).first_or_404()
-    habbit_history = HabbitHistory.query.filter_by(habbit_id=id)
+    habit = Habit.query.filter_by(id=id).first_or_404()
+    habit_history = HabitHistory.query.filter_by(habit_id=id)
 
-    Habbit.complete_habbit(habbit,current_user)
-    weekly_count = habbit.increase_streak(weekly_count)
+    Habit.complete_habit(habit,current_user)
+    weekly_count = habit.increase_streak(weekly_count)
     db.session.commit()
 
 
     return jsonify(
-        current_streak=habbit.current_streak,
-         longest_streak=habbit.longest_streak,
+        current_streak=habit.current_streak,
+         longest_streak=habit.longest_streak,
          weekly_count=weekly_count)
 
 @login_required
@@ -106,18 +106,18 @@ def complete():
 def undo():
     id = request.form['id']
     weekly_count = int(request.form['weekly_count'])
-    habbit = Habbit.query.filter_by(id=id).first_or_404()
-    habbit_history = HabbitHistory.query.filter_by(
-        habbit_id=id).order_by(desc(HabbitHistory.timestamp)).first()
-    db.session.delete(habbit_history)
-    weekly_count = habbit.decrease_streak(weekly_count)
+    habit = Habit.query.filter_by(id=id).first_or_404()
+    habit_history = HabitHistory.query.filter_by(
+        habit_id=id).order_by(desc(HabitHistory.timestamp)).first()
+    db.session.delete(habit_history)
+    weekly_count = habit.decrease_streak(weekly_count)
 
-    habbit.active_today = True
+    habit.active_today = True
     db.session.commit()
 
     return jsonify(
-        current_streak=habbit.current_streak,
-        longest_streak=habbit.longest_streak,
+        current_streak=habit.current_streak,
+        longest_streak=habit.longest_streak,
         weekly_count=weekly_count)
 
 @login_required
@@ -125,14 +125,14 @@ def undo():
 def check_status():
     if current_user.is_anonymous:
         pass
-    habbits = Habbit.query.filter_by(user_id=current_user.id)
+    habits = Habit.query.filter_by(user_id=current_user.id)
     json = {}
-    for habbit in habbits:
-        habbit_history = HabbitHistory.query.filter_by(
-            habbit_id=habbit.id).order_by(desc(
-                HabbitHistory.timestamp)).limit(7)
-        history = [status.timestamp.isoformat() for status in habbit_history]
+    for habit in habits:
+        habit_history = HabitHistory.query.filter_by(
+            habit_id=habit.id).order_by(desc(
+                HabitHistory.timestamp)).limit(7)
+        history = [status.timestamp.isoformat() for status in habit_history]
         if len(history) > 0:
-            json.update({str(habbit.id): history})
+            json.update({str(habit.id): history})
 
     return jsonify(json)

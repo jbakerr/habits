@@ -22,7 +22,7 @@ class User(UserMixin, db.Model):
     username = db.Column(db.String(64), index=True, unique=True)
     email = db.Column(db.String(120), index=True, unique=True)
     password_hash = db.Column(db.String(128))
-    habbits = db.relationship('Habbit', backref='creator', lazy='dynamic')
+    habits = db.relationship('Habit', backref='creator', lazy='dynamic')
     last_seen = db.Column(db.DateTime, default = datetime.utcnow)
 
 
@@ -52,34 +52,34 @@ class User(UserMixin, db.Model):
     #     return User.query.get(id)
 
 
-class Habbit(db.Model):
-    """ Represents a single habbit
+class Habit(db.Model):
+    """ Represents a single habit
     Attributes:
-        id (int): Unique habbit ID
-        habbit (str): Description/title of habbit
-        timestamp (date): Date habbit was created
+        id (int): Unique habit ID
+        habit (str): Description/title of habit
+        timestamp (date): Date habit was created
         user_id (int): Foreign Key to unique User ID
-        weekly_goal (int): Number of times to complete habbit / week
-        is_active (bool): True if habbit isn't currently active
-        active_today (bool): True if habbit needs to be completed today
+        weekly_goal (int): Number of times to complete habit / week
+        is_active (bool): True if habit isn't currently active
+        active_today (bool): True if habit needs to be completed today
 
     """
     id = db.Column(db.Integer, primary_key = True)
-    habbit = db.Column(db.String(70))
+    habit = db.Column(db.String(70))
     timestamp = db.Column(db.DateTime, index=True, default=datetime.utcnow)
     user_id = db.Column(db.Integer, db.ForeignKey('user.id'))
     weekly_goal = db.Column(db.Integer)
     is_active = db.Column(db.Boolean, default=True)
-    habbit_history = db.relationship('HabbitHistory', backref='parent', lazy='dynamic')
+    habit_history = db.relationship('HabitHistory', backref='parent', lazy='dynamic')
     active_today = db.Column(db.Boolean, default=True)
 
     current_streak = db.Column(db.Integer, default=0)
     longest_streak = db.Column(db.Integer, default=0)
 
 
-    def complete_habbit(self, user_id):
+    def complete_habit(self, user_id):
         finished_at = datetime.utcnow()
-        update_history = HabbitHistory(timestamp=finished_at, habbit_id = self.id)
+        update_history = HabitHistory(timestamp=finished_at, habit_id = self.id)
         db.session.add(update_history)
         self.active_today = False
 
@@ -113,24 +113,24 @@ class Habbit(db.Model):
         db.session.commit()
 
     def __repr__(self):
-        return '<Habbit {}>'.format(self.habbit)
+        return '<Habit {}>'.format(self.habit)
 
-class HabbitHistory(db.Model):
-    """ Represents a log of each time a habbit is completed
+class HabitHistory(db.Model):
+    """ Represents a log of each time a habit is completed
     Attributes:
         id (int): Unique log id
-        timestamp (date): Date habbit was completed
-        habbit_id (int): Foreign key to unique habbit id
+        timestamp (date): Date habit was completed
+        habit_id (int): Foreign key to unique habit id
     """
     id = db.Column(db.Integer, primary_key = True)
     timestamp = db.Column(db.DateTime, index=True, default=datetime.utcnow)
-    habbit_id = db.Column(db.Integer, db.ForeignKey('habbit.id'))
+    habit_id = db.Column(db.Integer, db.ForeignKey('habit.id'))
 
 
 
 
     def __repr__(self):
-        return '<{} Completed at {}'.format(self.habbit_id, self.timestamp)
+        return '<{} Completed at {}'.format(self.habit_id, self.timestamp)
 
 
 
