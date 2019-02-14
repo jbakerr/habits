@@ -35,6 +35,7 @@ class User(UserMixin, db.Model):
     def check_password(self, password):
         return check_password_hash(self.password_hash, password)
 
+# TODO: Add email / user password reset functionality back in
     # def get_reset_password_token(self, expires_in=600):
     #     return jwt.encode(
     #         {'reset_password': self.id, 'exp': time() + expires_in},
@@ -84,7 +85,7 @@ class Habbit(db.Model):
 
     def increase_streak(self, weekly_count):
         weekly_count += 1
-        if weekly_count > self.weekly_goal:
+        if weekly_count >= self.weekly_goal:
             self.current_streak += 1
             if self.current_streak > self.longest_streak:
                 self.longest_streak = self.current_streak
@@ -95,9 +96,11 @@ class Habbit(db.Model):
         weekly_count -= 1
 
         if (weekly_count + 1) == self.weekly_goal:
-            self.current_streak -= 1
+            if self.current_streak >= 1:
+                self.current_streak -= 1
             if (self.current_streak + 1) == self.longest_streak:
-                self.longest_streak -= 1
+                if self.longest_streak >= 1:
+                    self.longest_streak -= 1
 
         return weekly_count
 
