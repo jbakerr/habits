@@ -122,4 +122,6 @@ dmypy.json
 #misc.
 logs/
 migrations/
+*.sublime-project
+*.sublime-workspace
 
