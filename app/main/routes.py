@@ -8,21 +8,20 @@ from sqlalchemy import desc
 from datetime import datetime, date, timedelta
 
 
-@bp.before_request
-def before_request():
-    yesterday = date.today() - timedelta(1)
-    if current_user.is_anonymous == False:
-        habits = Habit.query.filter_by(creator=current_user)
-        for habit in habits:
-            habit_history = HabitHistory.query.filter_by(
-                habit_id=habit.id).order_by(
-                desc(HabitHistory.timestamp)).first()
-            if habit_history is not None:
+# @bp.before_request
+# def before_request():
+#     yesterday = date.today() - timedelta(1)
+#     if current_user.is_anonymous == False:
+#         habits = Habit.query.filter_by(creator=current_user)
+#         for habit in habits:
+#             habit_history = HabitHistory.query.filter_by(
+#                 habit_id=habit.id).order_by(
+#                 desc(HabitHistory.timestamp)).first()
+#             if habit_history is not None:
 
-                if habit_history.timestamp.date() < yesterday:
-                    habit.current_streak = 0
-
-    db.session.commit()
+#                 if habit_history.timestamp.date() < yesterday:
+#                     habit.current_streak = 0
+    # db.session.commit()
 
 @bp.route('/', methods=['GET', 'POST'])
 @bp.route('/index', methods=['GET', 'POST'])
@@ -120,15 +119,16 @@ def undo():
         longest_streak=habit.longest_streak,
         weekly_count=weekly_count)
 
+
 @login_required
 @bp.route('/_check_status', methods=['GET', 'POST'])
 def check_status():
+    # TODO: Add user setting for start date to be sent in json package
     json = {}
     if current_user.is_anonymous:
         pass
     habits = Habit.query.filter_by(user_id=current_user.id)
     habit_list = [habit.id for habit in habits]
-    print(habit_list)
     json.update({"habit_list": habit_list})
     for habit in habits:
         habit_history = HabitHistory.query.filter_by(
@@ -139,3 +139,11 @@ def check_status():
             json.update({str(habit.id): history})
 
     return jsonify(json)
+
+@login_required
+@bp.route('/_reset_current_streak', methods=['GET', 'POST'])
+def reset_current_streak():
+    id = request.form['id']
+    habit = Habit.query.filter_by(id=id).first_or_404()
+    habit.reset_current_streak()
+    return ""

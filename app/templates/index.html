@@ -51,7 +51,7 @@
 
 {% block scripts %}
 {{ super() }}
-
+<!-- TODO: Make sure script runs each time page is navigated to. -->
 <script src="{{ url_for('static',filename='js/scripts.js') }}"></script>
 
 
