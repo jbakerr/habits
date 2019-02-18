@@ -1,6 +1,6 @@
-// Wednesday 02/13/19 at 08:25PM - 56 files in 0.36 secs
+// Monday 02/18/19 at 02:50PM - 58 files in 1.06 secs
 
 ## TODO (3)
 1. app/models.py:38          Add email / user password reset functionality back in
-2. templates/index.html:89   Make sure date is correct and set for midnight
-3. templates/index.html:90   Make sure page loads with current weekly count
+2. templates/index.html:54   Make sure script runs each time page is navigated to. -->
+3. main/routes.py:126        Add user setting for start date to be sent in json package
