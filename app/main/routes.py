@@ -123,10 +123,13 @@ def undo():
 @login_required
 @bp.route('/_check_status', methods=['GET', 'POST'])
 def check_status():
+    json = {}
     if current_user.is_anonymous:
         pass
     habits = Habit.query.filter_by(user_id=current_user.id)
-    json = {}
+    habit_list = [habit.id for habit in habits]
+    print(habit_list)
+    json.update({"habit_list": habit_list})
     for habit in habits:
         habit_history = HabitHistory.query.filter_by(
             habit_id=habit.id).order_by(desc(

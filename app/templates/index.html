@@ -37,7 +37,7 @@
         <input class="habitCheckbox" type="checkbox" name="{{ habit.id }}" id="checkbox{{ habit.id }}"></input>
       </td>
       <td><span id="current_streak{{ habit.id }}">{{ habit.current_streak }}</span></td>
-      <td><span id="weekly_count{{ habit.id }}">0</span></td>
+      <td><span id="weekly_count{{ habit.id }}"></span></td>
       <td><span id="longest_streak{{ habit.id }}">{{ habit.longest_streak }}</span></td>
     </tr>
   {% endfor %}
@@ -48,70 +48,12 @@
 
 {% endblock %}
 
+
 {% block scripts %}
 {{ super() }}
 
-<script src="//ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
+<script src="{{ url_for('static',filename='js/scripts.js') }}"></script>
 
-<script type=text/javascript>
-$('.habitCheckbox').click(function() {
-    var id = $(this).attr('name')
-    var weekly_count = +$("#weekly_count" + id).text();
-
-       if(this.checked){
-            $.post('/_complete', {
-              id: id,
-              weekly_count: weekly_count
-            }).done(function(data) {
-                $("#current_streak" + id).text(data.current_streak);
-                $("#longest_streak" + id).text(data.longest_streak);
-                $("#weekly_count" + id).text(data.weekly_count);
-            })
-          }
-        else {
-            $.post('/_undo', {
-              id: $(this).attr('name'),
-              weekly_count: weekly_count
-            }).done(function(data) {
-                $("#current_streak" + id).text(data.current_streak);
-                $("#longest_streak" + id).text(data.longest_streak);
-                $("#weekly_count" + id).text(data.weekly_count);
-            })
-          }
-      });
-
-
- $(function() {
-      // TODO: Make sure date is correct and set for midnight
-      //  TODO: Make sure page loads with current weekly count
-      var start_day = new Date()
-      var yesterday = moment().subtract(1, 'days').startOf('day')
-      while ( start_day.getDay() !== 1 ) start_day.setDate(start_day.getDate() -1);
-      var start_day = moment(start_day).startOf('day')
-
-
-        $.ajax({
-          url: '/_check_status',
-        }).done(function(habit_list){
-          for (var habit in habit_list) {
-             if (habit_list.hasOwnProperty(habit)){
-              var week_count = 0
-              habit_list[habit].forEach(function(element) {
-                if (moment(element) >= start_day){
-                  week_count ++;
-                };
-                if (moment(element).isSame(moment(), 'day')){
-                  $("#checkbox" + habit).prop("checked", true)
-                }
-
-              });
-              $("#weekly_count" + habit).text(week_count);
-             }
-          }
-        });
-    });
-
-</script>
 
 
 {% endblock %}
