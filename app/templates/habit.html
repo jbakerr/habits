@@ -1,21 +1,16 @@
 {% extends "base.html" %}
 {% import 'bootstrap/wtf.html' as wtf %}
-
 {% block app_content %}
-
-    <h1 style="text-transform: capitalize;"> Settings for {{ habit.habit }}</h1>
-    <br>
-    {% if form %}
-    {{ wtf.quick_form(form) }}
-    <br>
-    {% endif %}
-
-    <br>
-    <ul>
-      {% for entry in habit_history %}
-      <li>{{ entry.timestamp }}</li>
-      {% endfor %}
-    </ul>
-
-
+<h1 style="text-transform: capitalize;"> Settings for {{ habit.habit }}</h1>
+<br>
+{% if form %}
+{{ wtf.quick_form(form) }}
+<br>
+{% endif %}
+<br>
+<ul>
+    {% for entry in habit_history %}
+    <li>{{ entry.timestamp }}</li>
+    {% endfor %}
+</ul>
 {% endblock %}

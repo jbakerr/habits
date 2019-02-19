@@ -22,5 +22,3 @@ class HabitSettings(FlaskForm):
     def __init__(self, original_habit, *args, **kwargs):
         super(HabitSettings, self).__init__(*args, **kwargs)
         self.original_habit = original_habit
-
-
