@@ -124,4 +124,5 @@ logs/
 migrations/
 *.sublime-project
 *.sublime-workspace
+misc.md
 
