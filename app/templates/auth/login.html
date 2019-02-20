@@ -1,33 +1,34 @@
 <!DOCTYPE html>
 <html>
+
 <head>
-    <link rel="stylesheet" href="{{url_for('static', filename='style.css')}}">
-    <title>Sign In</title>
+  <link rel="stylesheet" href="{{url_for('static', filename='style.css')}}">
+  <title>Sign In</title>
 </head>
 
 <body>
   <div class="ParentContainer">
-      <div class="loginParentContainer">
-          <div class="loginContainer">
-              <p class="sign" align="center">Sign in</p>
-              <form id="loginForm" action="" method="post" novalidate>
-                  {{ form.hidden_tag() }}
-                  <p>
-                      {{ form.username(class="formField username", placeholder="Username")}}
-                  </p>
-                  <p>
-                      {{ form.password(class="formField password", placeholder="Password", type="password") }}
-                  </p>
-                  <p>
-                      {{ form.submit(class="submit") }}
-                  </p>
-              </form>
-              <p class="loginText" align="center"><a href="{{ url_for('auth.register') }}">Click to Register!</a></p>
-              <p class="loginText" align="center">
-                  <a href="#">Click to Reset Password</a>
-              </p>
-          </div>
+    <div class="loginParentContainer">
+      <div class="loginContainer">
+        <p class="sign" align="center">Sign in</p>
+        <form id="loginForm" action="" method="post" novalidate>
+          {{ form.hidden_tag() }}
+          <p>
+            {{ form.username(class="formField username", placeholder="Username")}}
+          </p>
+          <p>
+            {{ form.password(class="formField password", placeholder="Password", type="password") }}
+          </p>
+          <p>
+            {{ form.submit(class="submit") }}
+          </p>
+        </form>
+        <p align="center"><a class="loginText" href="{{ url_for('auth.register') }}">Click to Register!</a></p>
+        <p align="center">
+          <a class="loginText" href="#">Click to Reset Password</a>
+        </p>
       </div>
+    </div>
   </div>
 </body>
 
