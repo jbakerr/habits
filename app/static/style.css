@@ -1,20 +1,83 @@
-.weekDays-selector input {
-  display: none !important;
+Html,
+body {
+    height: 100%;
+    margin: 0px;
+    padding: 0px;
+    background-color: white;
+    font-family: sans-serif;
 }
 
-.weekDays-selector input[type="checkbox"] + label {
-  display: inline-block;
-  border-radius: 6px;
-  background: #dddddd;
-  height: 40px;
-  width: 30px;
-  margin-right: 3px;
-  line-height: 40px;
-  text-align: center;
-  cursor: pointer;
+.ParentContainer {
+    display: table;
+    height: 100%;
+    margin: 0 auto;
 }
 
-.weekDays-selector input[type="checkbox"]:checked + label {
-  background: #2ad705;
-  color: #ffffff;
+.loginParentContainer {
+    display: table-cell;
+    vertical-align: middle;
+}
+
+.loginContainer {
+    padding: 10px;
+    width: 300px;
+    border-radius: 1.5em;
+    box-shadow: 0px 11px 35px 2px rgba(0, 0, 0, 0.14);
+}
+
+.formField {
+    width: 76%;
+    color: rgb(38, 50, 56);
+    font-weight: 700;
+    font-size: 14px;
+    letter-spacing: 1px;
+    background: rgba(136, 126, 126, 0.04);
+    padding: 10px 20px;
+    border: none;
+    border-radius: 20px;
+    outline: none;
+    box-sizing: border-box;
+    border: 2px solid rgba(0, 0, 0, 0.02);
+    margin-bottom: 50px;
+    margin-left: 46px;
+    text-align: center;
+    margin-bottom: 27px;
+    font-family: 'Ubuntu', sans-serif;
+
+}
+
+.submit {
+    cursor: pointer;
+    border-radius: 5em;
+    color: #fff;
+    background: linear-gradient(to right, #9C27B0, #E040FB);
+    border: 0;
+    padding-left: 40px;
+    padding-right: 40px;
+    padding-bottom: 10px;
+    padding-top: 10px;
+    font-family: 'Ubuntu', sans-serif;
+    margin-left: 35%;
+    font-size: 13px;
+    box-shadow: 0 0 20px 1px rgba(0, 0, 0, 0.04);
+}
+
+.sign {
+    padding-top: 10px;
+    color: #8C55AA;
+    font-family: 'Ubuntu', sans-serif;
+    font-weight: bold;
+    font-size: 23px;
+}
+
+
+.loginText {
+    text-shadow: 0px 0px 3px rgba(117, 117, 117, 0.12);
+    color: #E1BEE7;
+    padding-top: 4px;
+    font-size: 15px;
+}
+
+.topnav {
+    background-color: #FFFFFF;
 }
