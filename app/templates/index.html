@@ -3,20 +3,20 @@
 <div class="newHabitText"><h3><a href="{{ url_for('main.new_habit') }}">Create a new habit</a></h3></div>
 
 
-<div class="habitGrid">
+<div class="habitParentContainer">
 
     {% for habit in habits %}
 
         <div class="habitCell">
             <a class="cell habitTitle" href="{{ url_for('main.habit', username=current_user.username, id=habit.id, habit=habit.habit) }}">{{ habit.habit }}</a>
-            <div class="cell weeklyGoal">
-                <p>Weekly Goal</p>
-                <p>{{ habit.weekly_goal }}</p>
-            </div>
+
+
+
             <div class="cell weekStatus">
                 <p>Completed This Week</p>
-                <p><span id="weekly_count{{ habit.id }}"></span></p>
+                <p><span id="weekly_count{{ habit.id }}"></span>/ {{habit.weekly_goal }}</p>
             </div>
+
             <div class="cell todayStatus">
                 <input class="habitCheckbox" type="checkbox" name="{{ habit.id }}" id="checkbox{{ habit.id }}"></input>
             </div>
@@ -25,22 +25,7 @@
 
 
 
-        {# <hr> #}
-{#         <div class="goalText">
-            <span>{{ habit.weekly_goal}}</span>
-            <span id="weekly_count{{ habit.id }}"></span>
-        </div>
-        <div class="todayStatus">
-
-        </div>
-    </li>
- #}
-
     {% endfor %}
-{#     <li class="whiteSpace"></li>
-    <li class="whiteSpace"></li>
-    <li class="whiteSpace"></li>
-    <li class="whiteSpace"></li> #}
 
 </div>
 {# <table style="width:65%;">
