@@ -1,20 +1,207 @@
-.weekDays-selector input {
-  display: none !important;
+Html,
+body {
+  height: 100%;
+  margin: 0px;
+  padding: 0px;
+  background-color: #EFF3F4;
+  font-family: 'Ubuntu', sans-serif;
 }
 
-.weekDays-selector input[type="checkbox"] + label {
-  display: inline-block;
-  border-radius: 6px;
-  background: #dddddd;
-  height: 40px;
-  width: 30px;
-  margin-right: 3px;
-  line-height: 40px;
+.container {
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  padding: 20px;
+}
+
+.ParentContainer {
+  display: table;
+  height: 100%;
+  margin: 0 auto;
+}
+
+.loginParentContainer {
+  display: table-cell;
+  vertical-align: middle;
+}
+
+.loginContainer {
+  padding: 10px;
+  width: 450px;
+  border-radius: 1.5em;
+  box-shadow: 0px 11px 35px 2px rgba(0, 0, 0, 0.14);
+  background-color: white;
+}
+
+.formField {
+  width: 76%;
+  color: rgb(38, 50, 56);
+  font-weight: 700;
+  font-size: 14px;
+  letter-spacing: 1px;
+  background: rgba(136, 126, 126, 0.04);
+  padding: 10px 20px;
+  border: none;
+  border-radius: 20px;
+  outline: none;
+  box-sizing: border-box;
+  border: 2px solid rgba(0, 0, 0, 0.02);
+  margin-bottom: 50px;
+  margin-left: 46px;
   text-align: center;
-  cursor: pointer;
+  margin-bottom: 27px;
+  font-family: 'Ubuntu', sans-serif;
+
 }
 
-.weekDays-selector input[type="checkbox"]:checked + label {
-  background: #2ad705;
-  color: #ffffff;
+.submit {
+  cursor: pointer;
+  border-radius: 5em;
+  color: #fff;
+  background: linear-gradient(to right, #43768C, #8ACDEA);
+  border: 0;
+  padding-left: 40px;
+  padding-right: 40px;
+  padding-bottom: 10px;
+  padding-top: 10px;
+  font-family: 'Ubuntu', sans-serif;
+  margin-left: 35%;
+  font-size: 13px;
+  box-shadow: 0 0 20px 1px rgba(0, 0, 0, 0.04);
 }
+
+.sign {
+  padding-top: 10px;
+  color: #3C809E;
+  font-family: 'Ubuntu', sans-serif;
+  font-weight: bold;
+  font-size: 23px;
+}
+
+
+.loginText {
+  text-shadow: 0px 0px 3px rgba(117, 117, 117, 0.12);
+  color: #3C809E;
+  padding-top: 4px;
+  font-size: 15px;
+}
+
+header {
+  background-color: #3C809E;
+  /*position: fixed;*/
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 50px;
+  display: flex;
+  align-items: center;
+}
+
+header ul {
+  list-style-type: none;
+  margin: 0px;
+  padding: 0px;
+
+
+}
+
+header li {
+  float: left;
+  margin: 20px;
+
+}
+
+
+.navLink {
+  display: block;
+  text-align: center;
+  padding: 14px 16px;
+  color: white;
+  text-decoration: none;
+
+}
+
+.navLink:hover {
+  background-color: #43768C;
+}
+
+
+
+
+.habitParentContainer {
+  padding: 50px;
+  margin: 50px;
+  list-style: none;
+  display: -webkit-box;
+  display: -moz-box;
+  display: -ms-flexbox;
+  display: -webkit-flex;
+  display: flex;
+  -webkit-flex-flow: row wrap;
+  /*justify-content: space-around;*/
+  flex-direction: row;
+
+}
+
+
+.habitCell {
+  margin: 10px;
+  display: grid;
+  width: 250px;
+  height: 250px;
+  grid-template-columns: 50% 50%;
+  grid-template-rows: 25% 25% 25% 25%;
+  background-color: white;
+  grid-gap: 2px;
+  border-radius: 1.5em;
+  box-shadow: 0px 11px 35px 2px rgba(0, 0, 0, 0.14);
+}
+
+
+.habitContainer {
+  background: white;
+  padding: 50px;
+  width: 25%;
+  height: 200px;
+  margin-top: 10px;
+  border-radius: 20px;
+  line-height: 150px;
+  color: white;
+  /*  font-weight: bold;
+  font-size: 3em;*/
+  text-align: center;
+}
+
+.cell {
+  border: 0px solid rgba(0, 0, 0, 0.8);
+  font-size: 15px;
+  padding: 10px;
+}
+
+.cell.habitTitle {
+  grid-column: 1 / 4;
+  grid-row: 1;
+  color: black;
+  font-size: 20px;
+  text-decoration: none;
+  text-align: left;
+}
+
+.cell.weeklyGoal {
+  grid-column: 1/3;
+  grid-row: 2/4
+}
+
+.cell.weekStatus {
+  grid-column: 1/4;
+  grid-row: 2/4;
+  vertical-align: top;
+
+}
+
+.cell.todayStatus {
+  grid-column: 1 / 4;
+  grid-row: 4/5;
+  background-color: red;
+}
+

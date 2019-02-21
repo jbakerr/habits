@@ -1,19 +1,35 @@
- {% extends "base.html" %}
-{% import 'bootstrap/wtf.html' as wtf %}
+<!DOCTYPE html>
+<html>
 
+<head>
+  <link rel="stylesheet" href="{{url_for('static', filename='style.css')}}">
+  <title>Sign In</title>
+</head>
 
-{% block app_content %}
-  <h1>Login</h1>
- <div class="row">
-        <div class="col-md-4">
-            {{ wtf.quick_form(form) }}
-        </div>
+<body>
+  <div class="ParentContainer">
+    <div class="loginParentContainer">
+      <div class="loginContainer">
+        <p class="sign" align="center">Sign in</p>
+        <form id="loginForm" action="" method="post" novalidate>
+          {{ form.hidden_tag() }}
+          <p>
+            {{ form.username(class="formField username", placeholder="Username")}}
+          </p>
+          <p>
+            {{ form.password(class="formField password", placeholder="Password", type="password") }}
+          </p>
+          <p>
+            {{ form.submit(class="submit") }}
+          </p>
+        </form>
+        <p align="center"><a class="loginText" href="{{ url_for('auth.register') }}">Click to Register!</a></p>
+        <p align="center">
+          <a class="loginText" href="#">Click to Reset Password</a>
+        </p>
+      </div>
     </div>
-    <br>
+  </div>
+</body>
 
-    <p>New User? <a href="{{ url_for('auth.register') }}">Click to Register!</a></p>
-    <p>
-        Forgot your password?
-        <a href="#">Click to reset</a>
-    </p>
-{% endblock %}
+</html>

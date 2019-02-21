@@ -124,4 +124,6 @@ logs/
 migrations/
 *.sublime-project
 *.sublime-workspace
+misc.md
+scrap_css.css
 

@@ -1,14 +1,34 @@
 {% extends "base.html" %}
-{% import 'bootstrap/wtf.html' as wtf %}
-{% block styles %}
-{{super()}}
-<link rel="stylesheet" href="{{url_for('static', filename='style.css')}}">
-{% endblock %}
 {% block app_content %}
-<h1 style="text-transform: capitalize;">Welcome {{ user.username }}</h1>
-<br>
-<h3><a href="{{ url_for('main.new_habit') }}">Create a new habit</a></h3>
-<table style="width:65%;">
+<div class="newHabitText"><h3><a href="{{ url_for('main.new_habit') }}">Create a new habit</a></h3></div>
+
+
+<div class="habitParentContainer">
+
+    {% for habit in habits %}
+
+        <div class="habitCell">
+            <a class="cell habitTitle" href="{{ url_for('main.habit', username=current_user.username, id=habit.id, habit=habit.habit) }}">{{ habit.habit }}</a>
+
+
+
+            <div class="cell weekStatus">
+                <p>Completed This Week</p>
+                <p><span id="weekly_count{{ habit.id }}"></span>/ {{habit.weekly_goal }}</p>
+            </div>
+
+            <div class="cell todayStatus">
+                <input class="habitCheckbox" type="checkbox" name="{{ habit.id }}" id="checkbox{{ habit.id }}"></input>
+            </div>
+        </div>
+
+
+
+
+    {% endfor %}
+
+</div>
+{# <table style="width:65%;">
     <tr>
         <th>Habit</th>
         <th>Weekly Goal</th>
@@ -17,19 +37,18 @@
         <th>Weekly Count</th>
         <th>Longest Streak</th>
     </tr>
-    {% for habit in habits %}
     <tr>
-        <td><a href="{{ url_for('main.habit', username=current_user.username, id=habit.id, habit=habit.habit) }}">{{ habit.habit }}</a></td>
+        <td></td>
         <td>{{ habit.weekly_goal}}</td>
         <td>
-            <input class="habitCheckbox" type="checkbox" name="{{ habit.id }}" id="checkbox{{ habit.id }}"></input>
+
         </td>
         <td><span id="current_streak{{ habit.id }}">{{ habit.current_streak }}</span></td>
         <td><span id="weekly_count{{ habit.id }}"></span></td>
         <td><span id="longest_streak{{ habit.id }}">{{ habit.longest_streak }}</span></td>
     </tr>
-    {% endfor %}
 </table>
+ #}
 {% endblock %}
 {% block scripts %}
 {{ super() }}
