@@ -31,7 +31,8 @@ function todayStatus(json) {
           week_count++;
         }
         if (moment(element).isSame(moment(), "day")) {
-          $("#checkbox" + habit_id).prop("checked", true);
+          $("#button" + habit_id).removeClass("habitButton incomplete").addClass("habitButton complete");
+          $("#button" + habit_id).text("Nice work!");
         }
         if (moment(element) < start_day.subtract(7, "days")) {
           resetCurrentStreak(habit_id);
@@ -51,23 +52,34 @@ function todayStatus(json) {
   }
 }
 
-$(".habitCheckbox").click(function() {
+$(".habitButton").click(function() {
   var id = $(this).attr("name");
   var weekly_count = +$("#weekly_count" + id).text();
+  var object = $(this);
 
-  if (this.checked) {
+
+
+
+  if ($(this).hasClass("habitButton incomplete")) {
+    $(this).removeClass('habitButton incomplete').addClass('habitButton complete');
+    $(this).text("Nice work!");
     $.post("/_complete", {
       id: id,
       weekly_count: weekly_count
-    }).done(function(data) {
+    }).done(function(data, object) {
       updateValues(data, id);
+
     });
   } else {
+    $(this).removeClass('habitButton complete').addClass('habitButton incomplete');
+    $(this).text("Mark as Done");
     $.post("/_undo", {
       id: $(this).attr("name"),
       weekly_count: weekly_count
     }).done(function(data) {
       updateValues(data, id);
+      $(this).removeClass('habitButton complete');
+      $(this).addClass('habitButton incomplete');
     });
   }
 });
