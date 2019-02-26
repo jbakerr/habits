@@ -14,13 +14,13 @@
         <form id="loginForm" action="" method="post" novalidate>
           {{ form.hidden_tag() }}
           <p>
-            {{ form.username(class="formField username", placeholder="Username")}}
+            {{ form.username(class="loginForm username", placeholder="Username")}}
           </p>
           <p>
-            {{ form.password(class="formField password", placeholder="Password", type="password") }}
+            {{ form.password(class="loginForm password", placeholder="Password", type="password") }}
           </p>
           <p>
-            {{ form.submit(class="submit") }}
+            {{ form.submit(class="loginSubmit") }}
           </p>
         </form>
         <p align="center"><a class="loginText" href="{{ url_for('auth.register') }}">Click to Register!</a></p>
