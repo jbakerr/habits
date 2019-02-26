@@ -33,7 +33,7 @@ body {
   background-color: white;
 }
 
-.formField {
+.loginForm {
   width: 76%;
   color: rgb(38, 50, 56);
   font-weight: 700;
@@ -54,7 +54,7 @@ body {
 
 }
 
-.submit {
+.loginSubmit {
   cursor: pointer;
   border-radius: 5em;
   color: #fff;
@@ -126,11 +126,9 @@ header li {
 }
 
 
-
-
 .habitParentContainer {
-  padding: 50px;
-  margin: 50px;
+  /*padding: 100px;*/
+  margin: 50px 200px 0px 200px;
   list-style: none;
   display: -webkit-box;
   display: -moz-box;
@@ -147,8 +145,8 @@ header li {
 .habitCell {
   margin: 10px;
   display: grid;
-  width: 250px;
-  height: 250px;
+  width: 200px;
+  height: 200px;
   grid-template-columns: 50% 50%;
   grid-template-rows: 25% 25% 25% 25%;
   background-color: white;
@@ -158,25 +156,12 @@ header li {
 }
 
 
-.habitContainer {
-  background: white;
-  padding: 50px;
-  width: 25%;
-  height: 200px;
-  margin-top: 10px;
-  border-radius: 20px;
-  line-height: 150px;
-  color: white;
-  /*  font-weight: bold;
-  font-size: 3em;*/
-  text-align: center;
-}
 
 .cell {
   border: 0px solid rgba(0, 0, 0, 0.8);
   font-size: 15px;
   padding: 10px;
-  /*margin: 10px*/
+  text-transform: capitalize;
 }
 
 .cell.habitTitle {
@@ -185,15 +170,14 @@ header li {
   color: black;
   font-size: 20px;
   text-decoration: none;
-  text-align: left;
+  text-align: center;
+  border-bottom: 1px solid rgba(0, 0, 0, 0.8);
+  margin: 3px 0px;
+
   ;
 }
 
-/*.cell.weeklyGoal {
-  grid-column: 1/3;
-  grid-row: 2/4
-}
-*/
+
 .cell.weekStatus {
   grid-column: 1/4;
   grid-row: 2/4;
@@ -204,7 +188,7 @@ header li {
 
 .cell.weekCount {
   color: #43768C;
-  font-size: 25px;
+  font-size: 30px;
   margin: -10px;
 }
 
@@ -222,8 +206,8 @@ header li {
 
 .habitButton {
   grid-row: 4/5;
-  width: 109%;
-  height: 62.5px;
+  width: 111%;
+  height: 50px;
   margin: -10px -10px -10px -10px;
   border-radius: 0 0 20px 20px;
   font-size: 20px;
@@ -244,3 +228,51 @@ header li {
 }
 
 
+.habitPageGrid {
+  display: grid;
+  grid-template-columns: 25% 50% 25%;
+  grid-template-rows: 10% 45% 45%;
+  border: 0px solid rgba(0, 0, 0, 0.8);
+  margin: 0% 5% 5% 5%;
+  width: 70%;
+  grid-gap: 2%;
+  grid-row-gap: 5px;
+
+}
+
+.habitPage{
+  background-color: white;
+  border-radius: 1.5em;
+}
+
+.habitPageTitle{
+  grid-column: 1/4;
+  grid-row: 1;
+  border: 0px solid rgba(0, 0, 0, 0.8);
+
+
+}
+
+.habitPageCalendar{
+  grid-column: 1/3  ;
+  grid-row: 2/4;
+  border: 0px solid rgba(0, 0, 0, 0.8);
+
+}
+
+.habitPage.stats{
+  grid-column: 3/4;
+  grid-row: 2/3;
+  border: 0px solid rgba(0, 0, 0, 0.8);
+}
+
+.habitPage.settings {
+  grid-column: 3/4;
+  grid-row: 3/4;
+  border: 0px solid rgba(0, 0, 0, 0.8);
+}
+
+.habitForm {
+  width: 80%;
+
+}

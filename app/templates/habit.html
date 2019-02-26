@@ -1,13 +1,37 @@
 {% extends "base.html" %}
-{% import 'bootstrap/wtf.html' as wtf %}
 {% block app_content %}
-<h1 style="text-transform: capitalize;"> Settings for {{ habit.habit }}</h1>
-<br>
-{% if form %}
-{{ wtf.quick_form(form) }}
-<br>
-{% endif %}
-<br>
+
+<div class="habitPageGrid">
+  <div class="habitPageTitle"><h1 style="text-transform: capitalize;"> Settings for {{ habit.habit }}</h1>
+</div>
+  <div class="habitPageCalendar">
+    <img src="{{ url_for('static', filename='calendar.png') }}" style="width:70%;height:70%">
+  </div>
+
+  <div class="habitPage stats">
+    <h2 align="left">Stats</h2>
+    <p>Streak:</p>
+    <p>Goal</p>
+  </div>
+  <div class="habitPage settings">
+    <h2 align="left">Settings</h2>
+    <form id="habitSettingForm" action="" method="post" novalidate>
+      {{ form.hidden_tag() }}
+      <p>
+        {{ form.habit.label }}<br>
+        {{ form.habit(class="habitForm")}}
+      </p>
+      <p>
+        {{ form.weekly_goal.label }}<br>
+        {{ form.weekly_goal(class="habitForm") }}
+      </p>
+      <p>
+        {{ form.submit(class="habitFormSubmit") }}
+      </p>
+
+  </div>
+</div>
+
 <ul>
     {% for entry in habit_history %}
     <li>{{ entry.timestamp }}</li>
