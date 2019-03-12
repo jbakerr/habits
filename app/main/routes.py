@@ -114,6 +114,7 @@ def undo():
 def check_status():
     # TODO: Add user setting for start date to be sent in json package
     json = {}
+    max_past = datetime.today() - timedelta(days=8)
     if current_user.is_anonymous:
         pass
     habits = Habit.query.filter_by(user_id=current_user.id)
@@ -125,10 +126,9 @@ def check_status():
             .order_by(desc(HabitHistory.timestamp))
             .limit(7)
         )
-        history = [status.timestamp.isoformat() for status in habit_history]
+        history = [status.timestamp.isoformat() for status in habit_history if status.timestamp > max_past]
         if len(history) > 0:
             json.update({str(habit.id): history})
-
     return jsonify(json)
 
 

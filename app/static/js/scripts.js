@@ -21,20 +21,23 @@ function todayStatus(json) {
   while (start_day.getDay() !== 1) start_day.setDate(start_day.getDate() - 1);
   var start_day = moment(start_day).startOf("day");
   var habit_list = json.habit_list;
-
   for (var i = 0; i < habit_list.length; i++) {
     var habit_id = habit_list[i];
     if (json.hasOwnProperty(habit_id)) {
       var week_count = 0;
       json[habit_id].forEach(function(element) {
-        if (moment(element) >= start_day) {
+        var local_time = moment.utc(element).local();
+
+        if (local_time >= start_day) {
           week_count++;
         }
-        if (moment(element).isSame(moment(), "day")) {
-          $("#button" + habit_id).removeClass("habitButton incomplete").addClass("habitButton complete");
+        if (local_time.isSame(moment(), "day")) {
+          $("#button" + habit_id)
+            .removeClass("habitButton incomplete")
+            .addClass("habitButton complete");
           $("#button" + habit_id).text("Nice work!");
         }
-        if (moment(element) < start_day.subtract(7, "days")) {
+        if (local_time < start_day.subtract(7, "days")) {
           resetCurrentStreak(habit_id);
         }
       });
@@ -45,6 +48,7 @@ function todayStatus(json) {
       }
     } else {
       $("#weekly_count" + habit_id).text(0);
+
       if (+$("#current_streak" + habit_id).text() > 0) {
         resetCurrentStreak(habit_id);
       }
@@ -57,29 +61,29 @@ $(".habitButton").click(function() {
   var weekly_count = +$("#weekly_count" + id).text();
   var object = $(this);
 
-
-
-
   if ($(this).hasClass("habitButton incomplete")) {
-    $(this).removeClass('habitButton incomplete').addClass('habitButton complete');
+    $(this)
+      .removeClass("habitButton incomplete")
+      .addClass("habitButton complete");
     $(this).text("Nice work!");
     $.post("/_complete", {
       id: id,
       weekly_count: weekly_count
     }).done(function(data, object) {
       updateValues(data, id);
-
     });
   } else {
-    $(this).removeClass('habitButton complete').addClass('habitButton incomplete');
+    $(this)
+      .removeClass("habitButton complete")
+      .addClass("habitButton incomplete");
     $(this).text("Mark as Done");
     $.post("/_undo", {
       id: $(this).attr("name"),
       weekly_count: weekly_count
     }).done(function(data) {
       updateValues(data, id);
-      $(this).removeClass('habitButton complete');
-      $(this).addClass('habitButton incomplete');
+      $(this).removeClass("habitButton complete");
+      $(this).addClass("habitButton incomplete");
     });
   }
 });
