@@ -1,6 +1,8 @@
-// Monday 02/18/19 at 02:50PM - 58 files in 1.06 secs
+// Wednesday 03/13/19 at 11:32PM - 6 files in 0.15 secs
 
-## TODO (3)
-1. app/models.py:38          Add email / user password reset functionality back in
-2. templates/index.html:54   Make sure script runs each time page is navigated to. -->
-3. main/routes.py:126        Add user setting for start date to be sent in json package
+## TODO (5)
+1. main/routes.py:115         Add user setting for start date to be sent in json package
+2. templates/habit.html:86    EDIT TO REFLECT REAL NUMBERS
+3. templates/habit.html:95    EDIT TO REFLECT REAL NUMBERS
+4. templates/habit.html:104   allow users to adjust weekOffset setting
+5. templates/index.html:43    Make sure script runs each time page is navigated to. -->
