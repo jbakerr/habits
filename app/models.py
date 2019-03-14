@@ -78,9 +78,8 @@ class Habit(db.Model):
     current_streak = db.Column(db.Integer, default=0)
     longest_streak = db.Column(db.Integer, default=0)
 
-    def complete_habit(self, user_id):
-        finished_at = datetime.utcnow()
-        update_history = HabitHistory(timestamp=finished_at, habit_id=self.id)
+    def complete_habit(self, user_id, timestamp):
+        update_history = HabitHistory(timestamp=timestamp, habit_id=self.id)
         db.session.add(update_history)
         self.active_today = False
 
