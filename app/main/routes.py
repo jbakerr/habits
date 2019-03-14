@@ -70,11 +70,13 @@ def habit(username, id):
 @bp.route("/_complete", methods=["GET", "POST"])
 def complete():
     id = request.form["id"]
+    timestamp = request.form["timestamp"]
+    timestamp = datetime.strptime(timestamp, "%Y-%m-%d")
     weekly_count = int(request.form["weekly_count"])
     habit = Habit.query.filter_by(id=id).first_or_404()
     habit_history = HabitHistory.query.filter_by(habit_id=id)
 
-    Habit.complete_habit(habit, current_user)
+    Habit.complete_habit(habit, current_user, timestamp)
     weekly_count = habit.increase_streak(weekly_count)
     db.session.commit()
 
@@ -89,13 +91,11 @@ def complete():
 @bp.route("/_undo", methods=["GET", "POST"])
 def undo():
     id = request.form["id"]
+    timestamp = request.form["timestamp"]
+    timestamp = datetime.strptime(timestamp, "%Y-%m-%d")
     weekly_count = int(request.form["weekly_count"])
     habit = Habit.query.filter_by(id=id).first_or_404()
-    habit_history = (
-        HabitHistory.query.filter_by(habit_id=id)
-        .order_by(desc(HabitHistory.timestamp))
-        .first()
-    )
+    habit_history = HabitHistory.query.filter_by(habit_id=id, timestamp=timestamp).first()
     db.session.delete(habit_history)
     weekly_count = habit.decrease_streak(weekly_count)
 
