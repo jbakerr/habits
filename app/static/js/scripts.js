@@ -60,6 +60,7 @@ $(".habitButton").click(function() {
   var id = $(this).attr("name");
   var weekly_count = +$("#weekly_count" + id).text();
   var object = $(this);
+  var timestamp = moment().format('YYYY-MM-DD');
 
   if ($(this).hasClass("habitButton incomplete")) {
     $(this)
@@ -68,6 +69,7 @@ $(".habitButton").click(function() {
     $(this).text("Nice work!");
     $.post("/_complete", {
       id: id,
+      timestamp: timestamp,
       weekly_count: weekly_count
     }).done(function(data, object) {
       updateValues(data, id);
@@ -79,7 +81,8 @@ $(".habitButton").click(function() {
     $(this).text("Mark as Done");
     $.post("/_undo", {
       id: $(this).attr("name"),
-      weekly_count: weekly_count
+      weekly_count: weekly_count,
+      timestamp: timestamp,
     }).done(function(data) {
       updateValues(data, id);
       $(this).removeClass("habitButton complete");
