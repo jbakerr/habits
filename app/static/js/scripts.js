@@ -14,30 +14,30 @@ function resetCurrentStreak(habit_id) {
 // Run upon page load, checks if habit has been completed today and determines
 // The current week count
 function todayStatus(json) {
-  var start_day = new Date();
+  // TODO: Also user to adjust start of week, currently set to Monday
+  var start_day = moment().startOf('isoweek');
   var yesterday = moment()
     .subtract(1, "days")
     .startOf("day");
-  while (start_day.getDay() !== 1) start_day.setDate(start_day.getDate() - 1);
-  var start_day = moment(start_day).startOf("day");
   var habit_list = json.habit_list;
   for (var i = 0; i < habit_list.length; i++) {
     var habit_id = habit_list[i];
     if (json.hasOwnProperty(habit_id)) {
       var week_count = 0;
       json[habit_id].forEach(function(element) {
-        var local_time = moment.utc(element).local();
 
-        if (local_time >= start_day) {
+        var timestamp_local_time = moment(element);
+
+        if (timestamp_local_time >= start_day) {
           week_count++;
         }
-        if (local_time.isSame(moment(), "day")) {
+        if (timestamp_local_time.isSame(moment(), "day")) {
           $("#button" + habit_id)
             .removeClass("habitButton incomplete")
             .addClass("habitButton complete");
           $("#button" + habit_id).text("Nice work!");
         }
-        if (local_time < start_day.subtract(7, "days")) {
+        if (timestamp_local_time < start_day.subtract(7, "days")) {
           resetCurrentStreak(habit_id);
         }
       });
@@ -98,7 +98,4 @@ $(function() {
     todayStatus(json);
   });
 });
-
-
-
 
