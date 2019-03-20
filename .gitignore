@@ -127,4 +127,5 @@ migrations/
 misc.md
 scrap_css.css
 app/static/js/node_modules/*
-
+coverage/*
+.coveragerc
