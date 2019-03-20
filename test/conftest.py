@@ -36,14 +36,14 @@ def init_database():
     db.session.add(user2)
     db.session.flush()
 
-    habit1 = Habit(habit="Test Habit 1", user_id=user1.id)
-    habit2 = Habit(habit="Test Habit 2", user_id=user2.id)
+    habit1 = Habit(habit="Test Habit 1", user_id=user1.id, weekly_goal=1)
+    habit2 = Habit(habit="Test Habit 2", user_id=user2.id, weekly_goal=2)
     db.session.add(habit1)
     db.session.add(habit2)
     db.session.flush()
 
     habit1_history = HabitHistory(habit_id=habit1.id, timestamp=datetime(2019, 1, 1))
-    habit2_history = HabitHistory(habit_id=habit1.id, timestamp=datetime(2019, 1, 2))
+    habit2_history = HabitHistory(habit_id=habit2.id, timestamp=datetime(2019, 1, 3))
 
     db.session.add(habit1_history)
     db.session.add(habit2_history)
