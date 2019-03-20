@@ -128,8 +128,12 @@ class HabitHistory(db.Model):
     timestamp = db.Column(db.DateTime, index=True, default=datetime.utcnow)
     habit_id = db.Column(db.Integer, db.ForeignKey("habit.id"))
 
+    def __init__(self, timestamp, habit_id):
+        self.timestamp = timestamp
+        self.habit_id = habit_id
+
     def __repr__(self):
-        return "<{} Completed at {}".format(self.habit_id, self.timestamp)
+        return "<{} Completed at {}>".format(self.habit_id, self.timestamp)
 
 
 @login.user_loader
