@@ -1,0 +1,6 @@
+{
+  "dependencies": {
+    "clndr": "^1.4.7",
+    "underscore": "^1.9.1"
+  }
+}
