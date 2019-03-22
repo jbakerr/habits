@@ -1,8 +1,6 @@
 {% extends "base.html" %}
 {% block app_content %}
-<div class="newHabitText">
-  <h3><a href="{{ url_for('main.new_habit') }}">Create a new habit</a></h3>
-</div>
+
 <div class="habitParentContainer">
   {% for habit in habits %}
   <div class="habitCell">
@@ -16,27 +14,12 @@
     </div>
   </div>
   {% endfor %}
+  <div class="newHabit">
+    <a href="{{ url_for('main.new_habit') }}" class="newHabitText">+</a>
+
+  </div>
 </div>
-{# <table style="width:65%;">
-  <tr>
-    <th>Habit</th>
-    <th>Weekly Goal</th>
-    <th>Today's Status</th>
-    <th>Current Streak</th>
-    <th>Weekly Count</th>
-    <th>Longest Streak</th>
-  </tr>
-  <tr>
-    <td></td>
-    <td>{{ habit.weekly_goal}}</td>
-    <td>
-    </td>
-    <td><span id="current_streak{{ habit.id }}">{{ habit.current_streak }}</span></td>
-    <td><span id="weekly_count{{ habit.id }}"></span></td>
-    <td><span id="longest_streak{{ habit.id }}">{{ habit.longest_streak }}</span></td>
-  </tr>
-</table>
-#}
+
 {% endblock %}
 {% block scripts %}
 {{ super() }}
