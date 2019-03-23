@@ -26,6 +26,7 @@
       <p>
         {{ form.submit(class="habitFormSubmit") }}
       </p>
+      <a href="{{ url_for('main.remove_habit', id=habit.id) }}">Remove Habit</a>
 
   </div>
 </div>

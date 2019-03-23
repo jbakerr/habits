@@ -139,3 +139,13 @@ def reset_current_streak():
     habit = Habit.query.filter_by(id=id).first_or_404()
     habit.reset_current_streak()
     return ""
+
+
+@login_required
+@bp.route("/_remove_habit/<id>", methods=["GET", "POST"])
+def remove_habit(id):
+    habit = Habit.query.filter_by(id=id).first_or_404()
+    habit_history = HabitHistory.query.filter_by(habit_id=id).delete()
+    db.session.delete(habit)
+    db.session.commit()
+    return redirect(url_for("main.index"))
