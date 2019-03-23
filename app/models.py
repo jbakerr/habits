@@ -115,13 +115,6 @@ class Habit(db.Model):
     def __repr__(self):
         return "<Habit {}>".format(self.habit)
 
-    # def delete_habit(self):
-    #     history = HabitHistory.query.filter_by(habit_id=self.id).all()
-    #     db.session.delete(history)
-    #     db.session.delete(self)
-    #     db.session.commit()
-    #     return ""
-
 
 class HabitHistory(db.Model):
     """ Represents a log of each time a habit is completed

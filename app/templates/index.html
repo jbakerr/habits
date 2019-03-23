@@ -15,8 +15,11 @@
   </div>
   {% endfor %}
   <div class="newHabit">
-    <a href="{{ url_for('main.new_habit') }}" class="newHabitText">+</a>
-
+    <a href="{{ url_for('main.new_habit') }}" class="newHabitText">
+      <span class="newHabitText icon">+</span>
+      <br>
+      <span class="newHabitText text">New Habit</span>
+    </a>
   </div>
 </div>
 

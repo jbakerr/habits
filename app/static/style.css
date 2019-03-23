@@ -172,11 +172,16 @@ header li {
   justify-content: center;
   text-align: center;
   position: relative;
-  font-size: 90px;
   text-decoration: none;
   color: #43768C;
+}
 
+.newHabitText.icon {
+  font-size: 80px;
+}
 
+.newHabitText.text {
+  font-size: 30px;
 }
 
 .cell {
