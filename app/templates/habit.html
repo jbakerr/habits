@@ -6,36 +6,31 @@
 </div>
   <div id="mini-clndr"></div>
   <div class="habitPage stats">
-    <h2 align="left">Stats</h2>
+    <h2 align="center">Stats</h2>
     <p>Current Streak: {{ habit.current_streak }}</p>
     <p>Longest Streak: {{ habit.longest_streak }}</p>
     <p>Week Count: <span id="weekly_streak{{ habit.id }}"></span></p>
   </div>
   <div class="habitPage settings">
-    <h2 align="left">Settings</h2>
+    <h2 align="center">Settings</h2>
     <form id="habitSettingForm" action="" method="post" novalidate>
       {{ form.hidden_tag() }}
       <p>
         {{ form.habit.label }}<br>
-        {{ form.habit(class="habitForm")}}
+        {{ form.habit(class_="habitForm")}}
       </p>
       <p>
         {{ form.weekly_goal.label }}<br>
-        {{ form.weekly_goal(class="habitForm") }}
+        {{ form.weekly_goal(class_="habitForm", style="width: 20%;") }}
       </p>
       <p>
-        {{ form.submit(class="habitFormSubmit") }}
+        {{ form.submit(class_="habitFormSubmit") }}
       </p>
       <a href="{{ url_for('main.remove_habit', id=habit.id) }}">Remove Habit</a>
 
   </div>
 </div>
 
-<ul>
-    {% for entry in habit_history %}
-    <li>{{ entry.timestamp }}</li>
-    {% endfor %}
-</ul>
 {% endblock %}
 
 {% block scripts %}

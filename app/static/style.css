@@ -309,7 +309,8 @@ header li {
 }
 
 .habitForm {
-  width: 80%;
+  width: 75%;
+  border-radius: 3px
 
 }
 
@@ -330,7 +331,7 @@ header li {
 #mini-clndr {
   font-family: Asap, Helvetica, Arial;
   margin: 0 auto;
-  width: 324px;
+  width: 400px;
   height: auto;
 /*  -moz-box-shadow: 4px 4px 0 #343434;
   -webkit-box-shadow: 4px 4px 0 #343434;
