@@ -7,7 +7,7 @@ A habit tracking app built using Flask. Features include:
 * Dashboard to assess progress and vistual statistics
 
 # Screenshots
-![Home Page](jbakerr.github.com/habits/docs/home_screenshot.png)
+![Home Page](habits/docs/home_screenshot.png)
 
 
 # Install
