@@ -6,12 +6,15 @@ A habit tracking app built using Flask. Features include:
 * Individual and group statistics based on habit completion.
 * Dashboard to assess progress and vistual statistics
 
+# Screenshots
+![Home Page](jbakerr.github.com/habits/docs/home_screenshot.png)
 
-# Install 
+
+# Install
 
 ```
 pip install -r requirements.txt
-FLASK_APP=habits.py 
+FLASK_APP=habits.py
 ```
 
 
