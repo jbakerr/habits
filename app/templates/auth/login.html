@@ -8,13 +8,27 @@
 
 <body>
 
+
+
   <div class="ParentContainer">
 
     <div class="loginParentContainer">
 
       <div class="loginContainer">
       <h1 class="sign"><a class="sign" href="{{ url_for('main.index') }}">Habit Tracker</a></h1>
+
         <p class="sign" align="center">Sign in</p>
+      <div>
+        {% with messages = get_flashed_messages() %}
+        {% if messages %}
+        {% for message in messages %}
+        <div  class="flashMessages">{{ message }}</div>
+        {% endfor %}
+        {% endif %}
+        {% endwith %}
+        {# application content needs to be provided in the app_content block #}
+        {% block app_content %}{% endblock %}
+    </div>
         <form id="loginForm" action="" method="post" novalidate>
           {{ form.hidden_tag() }}
           <p>

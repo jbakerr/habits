@@ -7,6 +7,10 @@ body {
   font-family: 'Ubuntu', sans-serif;
 }
 
+.flashMessages {
+  text-align: center;
+}
+
 .container {
   height: 100%;
   display: flex;
