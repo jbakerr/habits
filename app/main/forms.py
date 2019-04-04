@@ -17,7 +17,7 @@ class HabitSettings(FlaskForm):
         DataRequired(), Length(min=1, max=70)])
     weekly_goal = IntegerField('Weekly Goal', validators=[
         DataRequired(), NumberRange(min=1, max=7)])
-    submit = SubmitField('Submit')
+    submit = SubmitField('Save')
 
     def __init__(self, original_habit, *args, **kwargs):
         super(HabitSettings, self).__init__(*args, **kwargs)
