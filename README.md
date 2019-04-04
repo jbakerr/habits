@@ -9,6 +9,8 @@ A habit tracking app built using Flask. This app was made for the purposes of le
 # Screenshots
 ![Home Page](docs/home_screenshot.png)
 
+![Habit Page](docs/habit_screenshot.png)
+
 
 # Install
 
