@@ -1,12 +1,41 @@
-{% extends "base.html" %}
-{% import 'bootstrap/wtf.html' as wtf %}
+<!DOCTYPE html>
+<html>
 
-{% block app_content %}
+<head>
+  <link rel="stylesheet" href="{{url_for('static', filename='style.css')}}">
+  <title>Register</title>
+</head>
 
-    <h1>Register</h1>
-    <div class="row">
-        <div class="col-md-4">
-            {{ wtf.quick_form(form) }}
-        </div>
+<body>
+
+<div class="ParentContainer">
+    <div class="loginParentContainer">
+      <div class="loginContainer">
+        <h1 class="sign"><a class="sign" href="{{ url_for('main.index') }}">Habit Tracker</a></h1>
+        <p class="sign" align="center">Register</p>
+          <form id="loginForm" action="" method="post" novalidate>
+            {{ form.hidden_tag() }}
+            <p>
+              {{ form.username(class="loginForm username", placeholder="Username")}}
+            </p>
+            <p>
+              {{ form.email(class="loginForm username", placeholder="Email")}}
+            </p>
+            <p>
+              {{ form.password(class="loginForm password", placeholder="Password", type="password") }}
+            </p>
+            <p>
+              {{ form.password2(class="loginForm password", placeholder="Repeat Password", type="password") }}
+            </p>
+            <p>
+              {{ form.submit(class="loginSubmit") }}
+            </p>
+          </form>
+
+      </div>
     </div>
-{% endblock %}
+  </div>
+</body>
+
+</html>
+

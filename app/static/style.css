@@ -14,6 +14,7 @@ body {
   padding: 20px;
 }
 
+
 .ParentContainer {
   display: table;
   height: 100%;
@@ -70,13 +71,16 @@ body {
   box-shadow: 0 0 20px 1px rgba(0, 0, 0, 0.04);
 }
 
-.sign {
+.sign, .sign:visited{
   padding-top: 10px;
   color: #3C809E;
   font-family: 'Ubuntu', sans-serif;
   font-weight: bold;
   font-size: 23px;
+  text-decoration: none;
+  text-align: center;
 }
+
 
 
 .loginText {

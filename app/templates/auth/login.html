@@ -7,9 +7,13 @@
 </head>
 
 <body>
+
   <div class="ParentContainer">
+
     <div class="loginParentContainer">
+
       <div class="loginContainer">
+      <h1 class="sign"><a class="sign" href="{{ url_for('main.index') }}">Habit Tracker</a></h1>
         <p class="sign" align="center">Sign in</p>
         <form id="loginForm" action="" method="post" novalidate>
           {{ form.hidden_tag() }}
