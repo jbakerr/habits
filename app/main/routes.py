@@ -18,6 +18,7 @@ def index():
     return render_template("index.html", title="Home", user=user, habits=habits)
 
 
+# User Profile Page
 @bp.route("/user/<username>")
 @login_required
 def user(username):
@@ -45,6 +46,7 @@ def new_habit():
     return render_template("new_habit.html", title="New Habit", user=user, form=form)
 
 
+# User's Habit Page
 @bp.route("/<username>/<id>", methods=["GET", "POST"])
 @login_required
 def habit(username, id):
@@ -66,6 +68,7 @@ def habit(username, id):
     )
 
 
+# Called when user clicks complete - either for current day or on calendar
 @login_required
 @bp.route("/_complete", methods=["GET", "POST"])
 def complete():
@@ -75,7 +78,6 @@ def complete():
     weekly_count = int(request.form["weekly_count"])
     habit = Habit.query.filter_by(id=id).first_or_404()
     habit_history = HabitHistory.query.filter_by(habit_id=id)
-
     Habit.complete_habit(habit, current_user, timestamp)
     weekly_count = habit.increase_streak(weekly_count)
     db.session.commit()
@@ -87,6 +89,7 @@ def complete():
     )
 
 
+# Called when user undos a completed habit - either for current day or on calendar
 @login_required
 @bp.route("/_undo", methods=["GET", "POST"])
 def undo():
@@ -95,7 +98,9 @@ def undo():
     timestamp = datetime.strptime(timestamp, "%Y-%m-%d")
     weekly_count = int(request.form["weekly_count"])
     habit = Habit.query.filter_by(id=id).first_or_404()
-    habit_history = HabitHistory.query.filter_by(habit_id=id, timestamp=timestamp).first()
+    habit_history = HabitHistory.query.filter_by(
+        habit_id=id, timestamp=timestamp
+    ).first()
     db.session.delete(habit_history)
     weekly_count = habit.decrease_streak(weekly_count)
 
@@ -109,6 +114,7 @@ def undo():
     )
 
 
+# Called each time the home page is loaded
 @login_required
 @bp.route("/_check_status", methods=["GET", "POST"])
 def check_status():
@@ -126,12 +132,17 @@ def check_status():
             .order_by(desc(HabitHistory.timestamp))
             .limit(7)
         )
-        history = [status.timestamp.isoformat() for status in habit_history if status.timestamp > max_past]
+        history = [
+            status.timestamp.isoformat()
+            for status in habit_history
+            if status.timestamp > max_past
+        ]
         if len(history) > 0:
             json.update({str(habit.id): history})
     return jsonify(json)
 
 
+# TODO: Currently not called, needs to be placed on habit page
 @login_required
 @bp.route("/_reset_current_streak", methods=["GET", "POST"])
 def reset_current_streak():
